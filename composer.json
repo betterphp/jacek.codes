@@ -1,0 +1,27 @@
+{
+    "name": "betterphp/jacek-codes-website",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "GPL-3.0",
+    "description": "Personal website showing off some of my projects and general ramblings",
+    "keywords": [],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/betterphp/php-code-style.git"
+        }
+    ],
+    "require-dev": {
+        "betterphp/php-code-style": "dev-master",
+        "squizlabs/php_codesniffer": "~3",
+        "phpunit/phpunit": "~6"
+    },
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "betterphp\\jacek_codes_website\\": "./src"
+        }
+    }
+}
