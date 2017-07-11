@@ -1,6 +1,10 @@
 # Composer lock file
 /composer.lock
 
+# NPM/Yarn lock file
+/package-lock.json
+/yarn.lock
+
 # 3rd party libs
 /vendor
 

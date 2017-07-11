@@ -1,0 +1,17 @@
+{
+    "name": "jacek-codes-website",
+    "version": "1.0.0",
+    "license": "GPL-3.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/betterphp/jacek.codes.git"
+    },
+    "description": "Personal website showing off some of my projects and general ramblings",
+    "keywords": [],
+    "dependencies": {
+
+    },
+    "devDependencies": {
+
+    }
+}
