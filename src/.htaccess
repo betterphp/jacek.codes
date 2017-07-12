@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteRule ^([a-z_]+)/([a-z_]+)/? index.php?controller_name=$1&action_name=$2 [QSA]
+RewriteRule ^([a-z_]+)/? index.php?controller_name=$1 [QSA]
