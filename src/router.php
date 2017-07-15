@@ -8,13 +8,23 @@ use \betterphp\jacek_codes_website\controller\controller;
 
 class router {
 
+    /**
+     * Gets a new controller instance from it's name
+     *
+     * @param string $controller_name The controller name
+     *
+     * @return controller the controller instance
+     */
     private static function get_controller(string $controller_name): controller {
+        // Sanity check on input
         if (!preg_match('#^[a-z_]+$#', $controller_name)) {
             throw new \Exception('Invalid controller name');
         }
 
+        // Work out what the namespace should be
         $namespace = substr(controller::class, 0, strrpos(controller::class, '\\'));
 
+        // Class name should then be this
         $controller_class = "{$namespace}\\{$controller_name}";
 
         if (!class_exists($controller_class)) {
