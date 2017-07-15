@@ -19,6 +19,8 @@ abstract class html_view extends view {
      * Sets the title to be used for the document
      *
      * @param string $page_title The new title
+     *
+     * @return void
      */
     public function set_page_title(string $page_title): void {
         $this->page_title = $page_title;
