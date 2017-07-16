@@ -55,6 +55,83 @@ class router {
     }
 
     /**
+     * Parses the doc comment for a method and gets the values for it's arguents
+     *
+     * @param \ReflectionMethod $method The method
+     *
+     * @return array A list of method arguments
+     */
+    private static function get_argument_list(\ReflectionMethod $method): array {
+        $doc_comment = $method->getDocComment();
+
+        preg_match_all(
+            '#@param\s([a-z]+)\s\$([a-z0-9_]+).+@(get|post)#',
+            $doc_comment,
+            $matched_params,
+            PREG_SET_ORDER
+        );
+
+        $defined_params = [];
+
+        foreach ($matched_params as $matched_param) {
+            $defined_params[$matched_param[2]] = [
+                'type' => $matched_param[1],
+                'source' => $matched_param[3],
+            ];
+        }
+
+        $method_params = $method->getParameters();
+
+        if (count($method_params) !== count($defined_params)) {
+            throw new \Exception('Invalid doc comment: Parameter count does not match function');
+        }
+
+        $function_params = [];
+
+        foreach ($method_params as $method_param) {
+            $param_name = $method_param->getName();
+
+            if (!isset($defined_params[$param_name])) {
+                throw new \Exception('Invalid doc comment: Parameter not defined');
+            }
+
+            $defined_param = $defined_params[$param_name];
+
+            switch ($defined_param['source']) {
+                case 'get':
+                    $value = ($_GET[$param_name] ?? null);
+                break;
+                case 'post':
+                    $value = ($_POST[$param_name] ?? null);
+                break;
+                default:
+                    throw new \Exception('Invalid doc comment: Source is not valid');
+                break;
+            }
+
+            if ($value !== null) {
+                switch ($defined_param['type']) {
+                    case 'boolean':
+                    case 'integer':
+                    case 'float':
+                    case 'string':
+                        settype($value, $defined_param['type']);
+                    break;
+                    default:
+                        throw new \Exception('Invalid doc comment: Type is not valid');
+                    break;
+                }
+            } else if (!$method_param->isOptional()) {
+                throw new \Exception('Required parameter not provided');
+            }
+
+            $function_params[] = $value;
+        }
+
+        return $function_params;
+    }
+
+    /**
      * Passes incomming web requests to their controller to be handled
      *
      * @param string $controller_name The name of the controller
@@ -65,8 +142,9 @@ class router {
     public static function start(string $controller_name, string $action_name): void {
         $controller = self::get_controller($controller_name);
         $method = self::get_action_method($controller, $action_name);
+        $arguments = self::get_argument_list($method);
 
-        $method->invoke($controller);
+        $method->invoke($controller, ...$arguments);
     }
 
 }
