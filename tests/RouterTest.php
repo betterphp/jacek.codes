@@ -32,4 +32,29 @@ class RouterTest extends TestCase {
         reflection::call_method(router::class, 'get_controller', ['hopefully_this_wont_exist']);
     }
 
+    public function testGetActionMethod(): void {
+        $controller = reflection::call_method(router::class, 'get_controller', ['index']);
+        $method = reflection::call_method(router::class, 'get_action_method', [$controller, 'index']);
+
+        $this->assertInstanceOf(\ReflectionMethod::class, $method);
+    }
+
+    public function testGetActionMethodWithInvalidName(): void {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid action name');
+
+        $controller = $this->getMockBuilder(controller::class)->getMockForAbstractClass();
+
+        reflection::call_method(router::class, 'get_action_method', [$controller, 'ALL CAPS WITH SPACES']);
+    }
+
+    public function testGetActionMethodWithIncorrectName(): void {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Action not found');
+
+        $controller = $this->getMockBuilder(controller::class)->getMockForAbstractClass();
+
+        reflection::call_method(router::class, 'get_action_method', [$controller, 'not_a_method']);
+    }
+
 }
