@@ -15,7 +15,8 @@
         "betterphp/php-code-style": "dev-master",
         "squizlabs/php_codesniffer": "~3",
         "phpunit/phpunit": "~6",
-        "betterphp/php-reflection-utils": "~1"
+        "betterphp/php-reflection-utils": "~1",
+        "betterphp/php-native-mock": "~1"
     },
     "require": {
 
