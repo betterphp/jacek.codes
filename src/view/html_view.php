@@ -64,7 +64,7 @@ abstract class html_view extends view {
      *
      * @return void
      */
-    abstract public function render_body(): void;
+    abstract protected function render_body(): void;
 
     /**
      * Helper method to render an array of view components

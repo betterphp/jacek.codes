@@ -11,3 +11,7 @@
 
 # Test results
 /test-results
+
+# Cache and built files
+/.sass-cache
+/src/ext/*/build
