@@ -11,11 +11,13 @@
             <exclude>
                 <!-- Not our code -->
                 <directory>./vendor</directory>
+                <directory>./.node_modules</directory>
                 <!-- Don't test tests -->
                 <directory>./tests</directory>
                 <directory>./test-results</directory>
                 <!-- Won't contain any php code but take a while to scan -->
                 <directory>./.git</directory>
+                <directory>./.sass-cache</directory>
             </exclude>
         </whitelist>
     </filter>

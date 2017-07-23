@@ -2,7 +2,10 @@
 <ruleset>
     <exclude-pattern type="relative">^.git/*</exclude-pattern>
     <exclude-pattern type="relative">^vendor/*</exclude-pattern>
+    <exclude-pattern type="relative">^node_modules/*</exclude-pattern>
     <exclude-pattern type="relative">^test-results/*</exclude-pattern>
+    <exclude-pattern type="relative">^.sass-cache/*</exclude-pattern>
+    <exclude-pattern type="relative">^src/ext/*/build/*</exclude-pattern>
 
     <rule ref="vendor/betterphp/php-code-style/Betterphp" />
 
