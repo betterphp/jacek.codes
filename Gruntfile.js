@@ -1,47 +1,44 @@
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
     grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+        pkg: grunt.file.readJSON('package.json'),
 
-    sass: {
-        dist: {
-            files: {
-                'src/ext/css/build/common.css': 'src/ext/css/common.scss',
+        sass: {
+            dist: {
+                files: {
+                    'src/ext/css/build/common.css': 'src/ext/css/common.scss',
+                }
             }
-        }
-    },
-
-    postcss: {
-        options: {
-            processors: [
-                require('autoprefixer')({
-                    browsers: ['> 0.5%', 'last 2 versions', 'IE 10', 'Firefox ESR', 'Opera 12.1', 'Android 4']
-                }),
-            ],
         },
-        dist: {
-            files: [
-                {
+
+        postcss: {
+            options: {
+                processors: [
+                    require('autoprefixer')({
+                        browsers: ['> 0.5%', 'last 2 versions', 'IE 10', 'Firefox ESR', 'Opera 12.1', 'Android 4']
+                    }),
+                ],
+            },
+            dist: {
+                files: [{
                     src: 'src/ext/css/build/*.css',
                     expand: true
-                }
-            ]
-        }
-    },
-
-    cssmin: {
-        combine: {
-            files: {
-                'src/ext/css/build/common.min.css': [
-                    'src/ext/css/build/common.css',
-                ]
+                }]
             }
-        }
-    },
+        },
 
-    watch: {
-        styles: {
-            files: ['src/ext/css/*.css', 'src/ext/css/*.scss'],
+        cssmin: {
+            combine: {
+                files: {
+                    'src/ext/css/build/common.min.css': [
+                        'src/ext/css/build/common.css',
+                    ]
+                }
+            }
+        },
+
+        watch: {
+            styles: {
+                files: ['src/ext/css/*.css', 'src/ext/css/*.scss'],
                 tasks: ['build-stylesheets'],
             }
         }
@@ -58,5 +55,4 @@ module.exports = function(grunt) {
     grunt.registerTask('build-all', ['build-stylesheets']);
 
     grunt.registerTask('default', ['build-all']);
-
 };
