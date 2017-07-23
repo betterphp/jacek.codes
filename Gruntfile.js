@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     watch: {
         styles: {
             files: ['src/ext/css/*.css', 'src/ext/css/*.scss'],
-                tasks: ['style'],
+                tasks: ['build-stylesheets'],
             }
         }
     });
@@ -53,8 +53,10 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('style', ['sass', 'postcss', 'cssmin']);
+    grunt.registerTask('build-stylesheets', ['sass', 'postcss', 'cssmin']);
 
-    grunt.registerTask('default', ['style']);
+    grunt.registerTask('build-all', ['build-stylesheets']);
+
+    grunt.registerTask('default', ['build-all']);
 
 };
