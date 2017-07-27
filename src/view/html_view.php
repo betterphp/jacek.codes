@@ -10,10 +10,19 @@ use \betterphp\jacek_codes_website\view\component\stylesheet;
 
 abstract class html_view extends view {
 
+    protected $site_root = null;
+
     private $page_title = '';
     private $header_scripts = [];
     private $footer_scripts = [];
     private $stylesheets = [];
+
+    /**
+     * @param string $site_root The URL to the index file
+     */
+    public function __construct(string $site_root) {
+        $this->site_root = $site_root;
+    }
 
     /**
      * Sets the title to be used for the document

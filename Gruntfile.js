@@ -6,6 +6,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'src/ext/css/build/common.css': 'src/ext/css/common.scss',
+                    'src/ext/css/build/layout.css': 'src/ext/css/layout.scss',
                 }
             }
         },
@@ -31,6 +32,7 @@ module.exports = function (grunt) {
                 files: {
                     'src/ext/css/build/common.min.css': [
                         'src/ext/css/build/common.css',
+                        'src/ext/css/build/layout.css',
                     ]
                 }
             }

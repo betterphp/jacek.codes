@@ -19,8 +19,26 @@ abstract class controller {
                 throw new \Exception('Class does not implement a view');
             }
 
-            $this->view = new $class_name();
+            $this->view = new $class_name($this->get_site_root());
         }
+    }
+
+    /**
+     * Gets the absolute URL for the site root
+     *
+     * This does not account for things like http authentication or weird ports but will do for our purposes
+     *
+     * @return string The URL
+     */
+    protected function get_site_root(): string {
+        $path = dirname($_SERVER['PHP_SELF'], 1);
+
+        // This method should return the path with no trailing slash but dirname will return one for the root folder
+        if ($path === '/') {
+            $path = '';
+        }
+
+        return "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}{$path}";
     }
 
     /**
