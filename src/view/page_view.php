@@ -9,6 +9,7 @@ use \betterphp\jacek_codes_website\view\component\stylesheet;
 abstract class page_view extends html_view {
 
     /**
+     * @param string $site_root The base URL for the site
      */
     public function __construct(string $site_root) {
         parent::__construct($site_root);
@@ -27,7 +28,21 @@ abstract class page_view extends html_view {
      * @inheritDoc
      */
     protected function render_body(): void {
-        $this->render_page_content();
+        ?>
+        <header>
+            Header
+        </header>
+        <main>
+            <?php
+
+            $this->render_page_content();
+
+            ?>
+        </main>
+        <footer>
+            Footer
+        </footer>
+        <?php
     }
 
 }
