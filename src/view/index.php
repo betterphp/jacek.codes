@@ -12,8 +12,8 @@ class index extends page_view {
     public function render_page_content(): void {
         for ($i = 0; $i < 10; ++$i) {
             ?>
-            <article>
-                <header>
+            <article class="activity-summary">
+                <header class="activity-header">
                     <h2>
                         <a href="">Title</a>
                     </h2>

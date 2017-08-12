@@ -7,6 +7,7 @@ module.exports = function (grunt) {
                 files: {
                     'src/ext/css/build/common.css': 'src/ext/css/common.scss',
                     'src/ext/css/build/layout.css': 'src/ext/css/layout.scss',
+                    'src/ext/css/build/activity-stream.css': 'src/ext/css/activity-stream.scss',
                 }
             }
         },
@@ -31,8 +32,10 @@ module.exports = function (grunt) {
             combine: {
                 files: {
                     'src/ext/css/build/common.min.css': [
+                        'src/ext/css/font.css',
                         'src/ext/css/build/common.css',
                         'src/ext/css/build/layout.css',
+                        'src/ext/css/build/activity-stream.css',
                     ]
                 }
             }
