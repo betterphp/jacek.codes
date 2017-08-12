@@ -15,6 +15,7 @@
         "grunt-contrib-cssmin": "~2",
         "grunt-contrib-sass": "~1",
         "grunt-contrib-watch": "~1",
-        "grunt-postcss": "~0.8"
+        "grunt-postcss": "~0.8",
+        "sass-svg-uri": "~1"
     }
 }

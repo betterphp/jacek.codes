@@ -29,19 +29,13 @@ abstract class page_view extends html_view {
      */
     protected function render_body(): void {
         ?>
-        <header>
-            Header
-        </header>
-        <main>
+        <main role="main">
             <?php
 
             $this->render_page_content();
 
             ?>
         </main>
-        <footer>
-            Footer
-        </footer>
         <?php
     }
 
