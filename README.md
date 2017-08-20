@@ -22,6 +22,7 @@ Update the `phinx.yml` file to point to the new database then run the migrations
 | GitHub merge requests     | New commits and status changes                | No          |
 | Blog posts                | Standard blog posts                           | No          |
 | Links                     | Links to other sites with a short description | No          |
+| CodePen                   | New pens created                              | No          |
 
 ## Fun activity sources
 | Name                      | Description                                   | Implemented |
