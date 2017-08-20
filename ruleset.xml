@@ -9,9 +9,12 @@
 
     <rule ref="vendor/betterphp/php-code-style/Betterphp" />
 
-    <!-- PHPUnit uses special function comments -->
     <rule ref="Betterphp.Commenting.FunctionComment">
+        <!-- PHPUnit uses special function comments -->
         <exclude-pattern>*/tests/*</exclude-pattern>
+        <!-- Database migrations don't really need doc comments -->
+        <exclude-pattern>*/db/migrations/*</exclude-pattern>
+        <exclude-pattern>*/db/seeds/*</exclude-pattern>
     </rule>
 
     <!-- Not too bothered about spacing and full stops -->

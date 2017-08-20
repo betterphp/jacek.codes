@@ -1,6 +1,20 @@
 # jacek.codes
 Useless programming and general ramblings.
 
+## Development database
+The site uses a MySQL database for storing data which will need to be set up locally for any development.
+
+First create the database with
+~~~sql
+CREATE SCHEMA jacek_codes DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+~~~
+
+Update the `phinx.yml` file to point to the new database then run the migrations with
+~~~bash
+./vendor/bin/phinx migrate
+~~~
+
+
 ## Activity sources
 | Name                      | Description                                   | Implemented |
 | ------------------------- | --------------------------------------------- | ----------- |

@@ -18,3 +18,4 @@
 
 # Config
 /src/config.php
+/phinx.yml
