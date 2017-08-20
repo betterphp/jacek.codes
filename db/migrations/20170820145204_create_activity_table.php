@@ -11,7 +11,6 @@ class CreateActivityTable extends AbstractMigration {
         $this->table('activity')
              ->addColumn('time', 'datetime')
              ->addColumn('type', 'enum', ['values' => ['git_commit']])
-             ->addColumn('data', 'blob', ['limit' => MysqlAdapter::BLOB_LONG])
              ->create();
     }
 
