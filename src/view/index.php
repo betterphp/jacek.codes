@@ -10,16 +10,16 @@ class index extends page_view {
      * @inheritDoc
      */
     public function render_page_content(): void {
-        for ($i = 0; $i < 10; ++$i) {
+        foreach ($this->get_var('events') as $event) {
             ?>
             <article class="activity-summary">
                 <header class="activity-header">
                     <h2>
-                        <a href="">Title</a>
+                        <a href=""><?= $event['title']; ?></a>
                     </h2>
                 </header>
                 <p>
-                    Some intro text
+                    <?= $event['body']; ?>
                 </p>
             </article>
             <?php

@@ -19,7 +19,8 @@
         "betterphp/php-native-mock": "~1"
     },
     "require": {
-
+        "php-http/guzzle6-adapter": "~1",
+        "knplabs/github-api": "~2"
     },
     "autoload": {
         "psr-4": {
