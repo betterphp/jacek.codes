@@ -28,4 +28,10 @@
         <log type="coverage-html" target="./test-results/phpunit-html" lowUpperBound="35" highLowerBound="70" />
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="true" />
     </logging>
+
+    <php>
+        <server name="REQUEST_SCHEME" value="https" />
+        <server name="HTTP_HOST" value="localhost" />
+        <server name="PHP_SELF" value="/index.php" />
+    </php>
 </phpunit>

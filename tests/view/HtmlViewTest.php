@@ -16,6 +16,7 @@ class HtmlViewTest extends TestCase {
 
     private function getHtmlView(): html_view {
         return $this->getMockBuilder(html_view::class)
+                    ->setConstructorArgs([''])
                     ->getMockForAbstractClass();
     }
 

@@ -19,16 +19,7 @@ class index extends controller {
      * @inheritDoc
      */
     public function index(): void {
-        $commits = git_commit::get_from_api();
-
-        $commits = array_map(function (git_commit $commit): array {
-            return [
-                'title' => $commit->title,
-                'body' => $commit->description,
-            ];
-        }, $commits);
-
-        $this->view->set_var('events', $commits);
+        $this->view->set_var('events', []);
 
         $this->view->render();
     }
