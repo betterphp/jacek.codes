@@ -11,7 +11,7 @@ class query_condition_builder {
     private $param_offset;
 
     /**
-     * @param int $param_offset An offset to apply when naming query params
+     * @param integer $param_offset An offset to apply when naming query params
      */
     public function __construct(int $param_offset = 0) {
         $this->sql = '';
@@ -124,7 +124,7 @@ class query_condition_builder {
     /**
      * Adds an and condition to the query
      *
-     * @param string $field the name of the field to compare
+     * @param string $field The name of the field to compare
      * @param mixed $value The value to compare to
      * @param string $comparison The SQL comparison operator to use
      *
@@ -172,7 +172,7 @@ class query_condition_builder {
     /**
      * Adds a nested or condition
      *
-     * @param \Closure $nested_condition_callback [description]
+     * @param \Closure $nested_condition_callback A function to call with a new query builder
      *
      * @return self The current query builder
      */
