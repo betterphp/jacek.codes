@@ -147,10 +147,20 @@ class database_model extends model {
         return array_pop($list);
     }
 
+    /**
+     * Placeholder method
+     *
+     * @return void
+     */
     public function create() {
 
     }
 
+    /**
+    * Placeholder method
+    *
+    * @return void
+    */
     public function delete() {
 
     }

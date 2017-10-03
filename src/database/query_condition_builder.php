@@ -83,22 +83,20 @@ class query_condition_builder {
 
             $this->params[$param_name] = $value;
 
+            $maths_comparisons = ['>', '<'];
+
+            if ($value === null && in_array($comparison, $maths_comparisons)) {
+                throw new \Exception('Mathamatical comparisons are not possible with null values');
+            }
+
             switch ($comparison) {
                 case '=':
                     return " = :{$param_name} ";
                 case '!=':
                     return " != :{$param_name} ";
                 case '>':
-                    if ($value === null) {
-                        throw new \Exception('Greater than comparison with null is not possible');
-                    }
-
                     return " > :{$param_name} ";
                 case '<':
-                    if ($value === null) {
-                        throw new \Exception('Less than comparison with null is not possible');
-                    }
-
                     return " < :{$param_name} ";
                 default:
                     throw new \Exception('Unsupported comparison');

@@ -123,8 +123,8 @@ class QueryConditionBuilderTest extends TestCase {
         return [
             ['=', [], 'Comparison with an empty list'],
             ['what even', [1, 2, 3], 'Unsupported comparison'],
-            ['>', null, 'Greater than comparison with null is not possible'],
-            ['<', null, 'Less than comparison with null is not possible'],
+            ['>', null, 'Mathamatical comparisons are not possible with null values'],
+            ['<', null, 'Mathamatical comparisons are not possible with null values'],
             ['what even', 'anything', 'Unsupported comparison'],
         ];
     }
