@@ -30,7 +30,7 @@ class script extends component {
                 src="<?= $this->src; ?>"
                 <?= ($this->defer) ? 'defer="defer"' : ''; ?>
                 <?= ($this->async) ? 'async="async"' : ''; ?>
-        1>
+        >
         </script>
         <?php
     }
