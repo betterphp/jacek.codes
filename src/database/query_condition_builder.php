@@ -114,7 +114,7 @@ class query_condition_builder {
      * @return self The current builder
      */
     public function where(string $field, $value, string $comparison = '='): self {
-        $this->sql .= " WHERE {$field} " . $this->get_comparison_string($value, $comparison) . ' ';
+        $this->sql .= " WHERE {$field} " . $this->get_comparison_string($field, $comparison, $value) . ' ';
 
         return $this;
     }
@@ -129,7 +129,7 @@ class query_condition_builder {
      * @return self The current builder
      */
     public function and(string $field, $value, string $comparison = '='): self {
-        $this->sql .= " AND {$field} " . $this->get_comparison_string($value, $comparison) . ' ';
+        $this->sql .= " AND {$field} " . $this->get_comparison_string($field, $comparison, $value) . ' ';
 
         return $this;
     }
@@ -183,6 +183,17 @@ class query_condition_builder {
         $this->params = array_merge($this->params, $qcb->get_params());
 
         return $this;
+    }
+
+    /**
+     * Helper function to return a condition builder that has no conditiong
+     *
+     * @return \Closure The function
+     */
+    public static function all(): \Closure {
+        return function ($qcb) {
+            // Don't add any conditions
+        };
     }
 
 }

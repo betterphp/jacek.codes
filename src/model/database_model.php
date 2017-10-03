@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace betterphp\jacek_codes_website\model;
 
 use betterphp\jacek_codes_website\config;
+use \betterphp\jacek_codes_website\database\query_condition_builder;
 
 class database_model extends model {
 
@@ -48,7 +49,7 @@ class database_model extends model {
      * @return string The field list string
      */
     private static function get_sql_field_list(): string {
-        return implode(', ', array_values(static::$fields));
+        return implode(', ', array_keys(static::$fields));
     }
 
     /**
@@ -60,7 +61,7 @@ class database_model extends model {
      * @return void
      */
     private static function bind_sql_where(\PDOStatement $stmt, query_condition_builder $condition_builder): void {
-        foreach ($condition_builder->get_params as $name => &$value) {
+        foreach ($condition_builder->get_params() as $name => &$value) {
             list($field_name, $param_number) = explode('_', $name, 2);
 
             $data_type = (static::$fields[$field_name] ?? null);
@@ -117,7 +118,7 @@ class database_model extends model {
         $table = static::$table_name;
         $where = $condition_builder->get_sql();
 
-        $stmt = $database->prepare("SELECT {$field_list} FROM {$table} WHERE {$where}");
+        $stmt = $database->prepare("SELECT {$field_list} FROM {$table} {$where}");
 
         self::bind_sql_where($stmt, $condition_builder);
 
