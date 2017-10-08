@@ -27,7 +27,7 @@ class database_model extends model {
      *
      * @return \PDO The database connection
      */
-    private static function get_database(): \PDO {
+    public static function get_database(): \PDO {
         static $database = null;
 
         if ($database === null) {
@@ -38,6 +38,7 @@ class database_model extends model {
             );
 
             $database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $database->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
         }
 
         return $database;
