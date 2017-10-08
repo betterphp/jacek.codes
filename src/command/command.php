@@ -4,7 +4,17 @@ declare(strict_types=1);
 
 namespace betterphp\jacek_codes_website\command;
 
+use \betterphp\jacek_codes_website\model\database_model;
+
 abstract class command {
+
+    protected $database;
+
+    /**
+     */
+    public function __construct() {
+        $this->database = database_model::get_database();
+    }
 
     /**
      * Gets a list of command class names, excluding the namespace
