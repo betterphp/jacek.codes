@@ -186,13 +186,46 @@ class query_condition_builder {
     }
 
     /**
+     * Sort the results by one of the fields
+     *
+     * @param string $field The name of the field to sort by
+     * @param boolean $asc Set to false for decending order
+     *
+     * @return self The current query builder
+     */
+    public function order_by(string $field, bool $asc = true): self {
+        $this->sql = ' ORDER BY ' . $field . ' ' . (($asc) ? 'ASC' : 'DESC');
+
+        return $this;
+    }
+
+    /**
+     * Puts a limit on the number of records that will be returned.
+     *
+     * @param integer $total The maximum number ot records to return
+     *
+     * @return self the current query builder
+     */
+    public function limit(int $total): self {
+        $this->sql .= ' LIMIT ' . (int) $total . ' ';
+
+        return $this;
+    }
+
+    /**
      * Helper function to return a condition builder that has no conditiong
+     *
+     * @param integer $limit The maximum number of records to return
      *
      * @return \Closure The function
      */
-    public static function all(): \Closure {
-        return function ($qcb) {
+    public static function all(int $limit = 0): \Closure {
+        return function ($qcb) use ($limit) {
             // Don't add any conditions
+
+            if ($limit > 0) {
+                $qcb->limit($limit);
+            }
         };
     }
 
