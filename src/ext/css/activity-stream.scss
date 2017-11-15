@@ -3,6 +3,7 @@
         margin-top: 30px;
     }
 
+    overflow: auto;
     background-color: white;
     border: solid 1px #c0c0c0;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
@@ -10,10 +11,24 @@
 
 .activity-header {
     padding: 15px;
+    overflow: auto;
     border-bottom: solid 1px #ddd;
 
-    > h2 {
+    &:last-child {
+        border-bottom: none;
+    }
+
+    h2, h3 {
         margin: 0px;
         padding: 0px;
+    }
+
+    .activity-header-main {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .activity-header-details {
+        margin-top: 20px;
     }
 }

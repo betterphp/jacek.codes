@@ -21,14 +21,22 @@ class index extends controller {
      */
     public function index(): void {
         $activities_filter = function ($qcb) {
-            $qcb->order_by('date', false)->limit(10);
+            $qcb->order_by('date', false)->limit(20);
         };
 
         $git_commits = github_commit::get_list($activities_filter);
 
-        print_r($git_commits);
-
-        $this->view->set_var('events', []);
+        $this->view->set_var('github_commits', array_map(function (github_commit $commit): array {
+            return [
+                'project_name' => $commit->project_name,
+                'message' => $commit->message,
+                'sha' => $commit->sha,
+                'date' => $commit->date,
+                'files_modified' => $commit->files_modified,
+                'lines_added' => $commit->lines_added,
+                'lines_deleted' => $commit->lines_deleted,
+            ];
+        }, $git_commits));
 
         $this->view->render();
     }
