@@ -7,12 +7,19 @@ namespace betterphp\jacek_codes_website\model\activity;
 use \betterphp\jacek_codes_website\config;
 use \betterphp\jacek_codes_website\model\activity;
 
-class git_commit extends activity {
+class github_commit extends activity {
 
-    protected static $table_name = 'git_commit';
+    protected static $table_name = 'github_commits';
     protected static $id_field = 'id';
     protected static $fields = [
         'id' => 'int',
+        'project_name' => 'string',
+        'sha' => 'string',
+        'message' => 'string',
+        'files_modified' => 'int',
+        'lines_added' => 'int',
+        'lines_deleted' => 'int',
+        'date' => 'datetime',
     ];
 
     /**
@@ -20,21 +27,17 @@ class git_commit extends activity {
      *
      * @return array The map
      */
-    public static function get_last_commit_dates(string $host_domain): array {
+    public static function get_last_commit_dates(): array {
         $sql = <<<SQL
             SELECT
                 project_name,
                 MAX(date) AS date
-            FROM git_commit
-            WHERE host_domain = :host_domain
+            FROM github_commits
             GROUP BY project_name
 SQL;
 
         $database = self::get_database();
         $stmt = $database->prepare($sql);
-
-        $stmt->bindParam(':host_domain', $host_domain, \PDO::PARAM_STR);
-
         $stmt->execute();
 
         $repos = [];

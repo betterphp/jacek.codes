@@ -54,6 +54,57 @@ class database_model extends model {
     }
 
     /**
+     * Helper function to bind a single SQL value
+     *
+     * @param \PDOStatement $stmt The statement to bind the value to
+     * @param string $param_name The name of the param key in the SQL
+     * @param string $field_name The database field that is being bound to
+     * @param mixed $value The value to bind
+     *
+     * @return void
+     */
+    private static function bind_sql_param(
+        \PDOStatement $stmt,
+        string $param_name,
+        string $field_name,
+        $value
+    ): void {
+        $data_type = (static::$fields[$field_name] ?? null);
+
+        if ($data_type === null) {
+            throw new \Exception("Unknown field {$field_name}");
+        }
+
+        // Special case null values
+        if ($value === null) {
+            $stmt->bindValue($param_name, null, \PDO::PARAM_NULL);
+            return;
+        }
+
+        switch ($data_type) {
+            case 'bool':
+                $stmt->bindParam($param_name, $value, \PDO::PARAM_BOOL);
+            break;
+            case 'int':
+                $stmt->bindParam($param_name, $value, \PDO::PARAM_INT);
+            break;
+            case 'float':
+            case 'string':
+                $stmt->bindParam($param_name, $value, \PDO::PARAM_STR);
+            break;
+            case 'date':
+                $stmt->bindValue($param_name, $value->format('Y-m-d'), \PDO::PARAM_STR);
+            break;
+            case 'datetime':
+                $stmt->bindValue($param_name, $value->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            break;
+            case 'time':
+                $stmt->bindValue($param_name, $value->format('%H:%I:%S'), \PDO::PARAM_STR);
+            break;
+        }
+    }
+
+    /**
      * Helper function to bind the values from a query condition to a PDO statement
      *
      * @param \PDOStatement $stmt The statement to bind the values to
@@ -65,38 +116,7 @@ class database_model extends model {
         foreach ($condition_builder->get_params() as $name => &$value) {
             list($field_name, $param_number) = explode('_', $name, 2);
 
-            $data_type = (static::$fields[$field_name] ?? null);
-
-            if ($data_type === null) {
-                throw new \Exception("Unknown field {$field_name}");
-            }
-
-            if ($value === null) {
-                $stmt->bindValue($name, $value, \PDO::PARAM_NULL);
-                continue;
-            }
-
-            switch ($data_type) {
-                case 'bool':
-                    $stmt->bindParam($name, $value, \PDO::PARAM_BOOL);
-                break;
-                case 'int':
-                    $stmt->bindParam($name, $value, \PDO::PARAM_INT);
-                break;
-                case 'float':
-                case 'string':
-                    $stmt->bindParam($name, $value, \PDO::PARAM_STR);
-                break;
-                case 'date':
-                    $stmt->bindValue($name, $value->format('Y-m-d'), \PDO::PARAM_STR);
-                break;
-                case 'datetime':
-                    $stmt->bindValue($name, $value->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-                break;
-                case 'time':
-                    $stmt->bindValue($name, $value->format('%H:%I:%S'), \PDO::PARAM_STR);
-                break;
-            }
+            self::bind_sql_param($stmt, $name, $field_name, $value);
         }
     }
 
@@ -150,12 +170,31 @@ class database_model extends model {
     }
 
     /**
-     * Placeholder method
+     * Creates a new record in the database
+     *
+     * @param array $fields The fields to store in the record
      *
      * @return void
      */
-    public function create() {
+    public static function create(array $fields): void {
+        $database = self::get_database();
 
+        $field_names = array_keys(static::$fields);
+        $table_name = static::$table_name;
+        $field_list = static::get_sql_field_list();
+        $param_list = implode(', ', array_map(function (string $field_name): string {
+            return ":{$field_name}";
+        }, $field_names));
+
+        $stmt = $database->prepare("INSERT INTO {$table_name} ({$field_list}) VALUES ({$param_list})");
+
+        foreach ($field_names as $field_name) {
+            $value = ($fields[$field_name] ?? null);
+
+            self::bind_sql_param($stmt, ":{$field_name}", $field_name, $value);
+        }
+
+        $stmt->execute();
     }
 
     /**
