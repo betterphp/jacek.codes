@@ -7,30 +7,60 @@ namespace betterphp\jacek_codes_website\view;
 class index extends page_view {
 
     /**
+     * Helper function to render the content for a commit set
+     *
+     * @param array $commits The commit list
+     *
+     * @return void
+     */
+    private function render_commits_content(array $commits): void {
+        ?>
+        <ol class="commit-list">
+            <?php
+
+            foreach ($commits as $commit) {
+                ?>
+                <li>
+                    <div class="commit-message">
+                        <a href="<?= htmlentities($commit['link']) ?>">
+                            <?= htmlentities($commit['message']) ?>
+                        </a>
+                    </div>
+                    <div class="commit-date"><?= $commit['date'] ?></div>
+                </li>
+                <?php
+            }
+
+            ?>
+        </ol>
+        <?php
+    }
+
+    /**
      * @inheritDoc
      */
     public function render_page_content(): void {
-        foreach ($this->get_var('github_commits') as $event) {
-            $project_url = "https://github.com/betterphp/{$event['project_name']}";
-            $commit_url = "{$project_url}/commit/{$event['sha']}";
-
+        foreach ($this->get_var('activities') as $activity) {
             ?>
             <article class="activity-summary">
                 <header class="activity-header">
-                    <div class="activity-header-main">
-                        <h2>
-                            <a href="<?= $project_url ?>">
-                                Committed to <?= $event['project_name'] ?>
-                            </a>
-                        </h2>
-                        <span class="activity-date"><?= $event['date'] ?></span>
-                    </div>
-                    <h3 class="activity-header-details">
-                        <a href="<?= $commit_url ?>">
-                            <?= substr($event['sha'], 0, 6), ': ', $event['message'] ?>
+                    <h2>
+                        <a href="<?= htmlentities($activity['title_link']) ?>">
+                            <?= htmlentities($activity['title']) ?>
                         </a>
-                    </h3>
+                    </h2>
                 </header>
+                <div class="activity-content">
+                    <?php
+
+                    switch ($activity['type']) {
+                        case 'commits':
+                            $this->render_commits_content($activity['details']);
+                        break;
+                    }
+
+                    ?>
+                </div>
             </article>
             <?php
         }

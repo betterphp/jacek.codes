@@ -12,23 +12,45 @@
 .activity-header {
     padding: 15px;
     overflow: auto;
-    border-bottom: solid 1px #ddd;
 
-    &:last-child {
-        border-bottom: none;
-    }
-
-    h2, h3 {
+    h2 {
         margin: 0px;
         padding: 0px;
     }
+}
 
-    .activity-header-main {
+.activity-content {
+    border-top: solid 1px #ddd;
+    padding: 15px;
+    overflow: auto;
+}
+
+.commit-list {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    > li {
         display: flex;
-        justify-content: space-between;
+        margin: 0px;
+        padding: 0px;
+
+        &:nth-child(n+2) {
+            margin-top: 8px;
+        }
     }
 
-    .activity-header-details {
-        margin-top: 20px;
+    .commit-message {
+        flex: 1;
+        margin-right: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .commit-date {
+        color: #888;
     }
 }
