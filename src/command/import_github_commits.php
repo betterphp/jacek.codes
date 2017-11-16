@@ -107,11 +107,7 @@ class import_github_commits extends command {
 
                 // Carry on while there are more commits and we're
                 // not at the most recent one from the database yet
-            } while (
-                $pager->hasNext() &&
-                $latest_repo_update !== null &&
-                $latest_commit_date > $latest_repo_update
-            );
+            } while ($pager->hasNext() && $latest_repo_update !== null && $latest_commit_date > $latest_repo_update);
         }
     }
 
