@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace betterphp\jacek_codes_website\controller;
 
 use \betterphp\jacek_codes_website\view\view;
+use \betterphp\jacek_codes_website\view\html_view;
+use \betterphp\jacek_codes_website\view\component\inline_script;
 
 abstract class controller {
 
@@ -20,6 +22,11 @@ abstract class controller {
             }
 
             $this->view = new $class_name($this->get_site_root());
+
+            if ($this->view instanceof html_view) {
+                $error_reporter = \betterphp\error_reporting\sentry_reporter::get();
+                $this->view->add_header_script(new inline_script($error_reporter->get_client_script()));
+            }
         }
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace betterphp\jacek_codes_website;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/common.php';
 
 use \betterphp\jacek_codes_website\command\command;
 

@@ -41,6 +41,16 @@ module.exports = function (grunt) {
             }
         },
 
+        uglify: {
+            scripts: {
+                files: {
+                    'src/ext/jsc/build/libs.min.js': [
+                        'node_modules/raven-js/dist/raven.js',
+                    ]
+                }
+            }
+        },
+
         watch: {
             styles: {
                 files: ['src/ext/css/*.css', 'src/ext/css/*.scss'],
@@ -52,12 +62,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('build-stylesheets', ['sass', 'postcss', 'cssmin']);
+    grunt.registerTask('build-scripts', ['uglify']);
 
-    grunt.registerTask('build-all', ['build-stylesheets']);
+    grunt.registerTask('build-all', ['build-stylesheets', 'build-scripts']);
 
     grunt.registerTask('default', ['build-all']);
 };

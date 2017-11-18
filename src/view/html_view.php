@@ -6,6 +6,7 @@ namespace betterphp\jacek_codes_website\view;
 
 use \betterphp\jacek_codes_website\view\component;
 use \betterphp\jacek_codes_website\view\component\script;
+use \betterphp\jacek_codes_website\view\component\linked_script;
 use \betterphp\jacek_codes_website\view\component\stylesheet;
 
 abstract class html_view extends view {
@@ -22,6 +23,8 @@ abstract class html_view extends view {
      */
     public function __construct(string $site_root) {
         $this->site_root = $site_root;
+
+        $this->add_header_script(new linked_script("{$this->site_root}/ext/jsc/build/libs.min.js"));
     }
 
     /**

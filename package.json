@@ -8,10 +8,13 @@
     },
     "description": "Personal website showing off some of my projects and general ramblings",
     "keywords": [],
-    "dependencies": {},
+    "dependencies": {
+        "raven-js": "~3.20"
+    },
     "devDependencies": {
         "autoprefixer": "~7",
         "grunt": "~1.0",
+        "grunt-contrib-uglify": "~3",
         "grunt-contrib-cssmin": "~2",
         "grunt-contrib-sass": "~1",
         "grunt-contrib-watch": "~1",
