@@ -6,7 +6,7 @@ use \PHPUnit\Framework\TestCase;
 use \betterphp\utils\reflection;
 use \betterphp\jacek_codes_website\view\html_view;
 use \betterphp\jacek_codes_website\view\component\component;
-use \betterphp\jacek_codes_website\view\component\script;
+use \betterphp\jacek_codes_website\view\component\linked_script;
 use \betterphp\jacek_codes_website\view\component\stylesheet;
 
 /**
@@ -41,18 +41,21 @@ class HtmlViewTest extends TestCase {
                                   ->disableOriginalConstructor()
                                   ->getMock();
 
+        $initial_resources = reflection::get_property($view, $var_name);
         $view->$add_method_name($expected_resource);
+        $final_resources = reflection::get_property($view, $var_name);
 
-        $actual_resources = reflection::get_property($view, $var_name);
+        $total_new_resources = (count($final_resources) - count($initial_resources));
+        $newest_resource = array_pop($final_resources);
 
-        $this->assertCount(1, $actual_resources);
-        $this->assertSame($expected_resource, $actual_resources[0]);
+        $this->assertSame(1, $total_new_resources);
+        $this->assertSame($expected_resource, $newest_resource);
     }
 
     public function dataAddScripts(): array {
         return [
-            ['add_header_script', 'header_scripts', script::class],
-            ['add_footer_script', 'footer_scripts', script::class],
+            ['add_header_script', 'header_scripts', linked_script::class],
+            ['add_footer_script', 'footer_scripts', linked_script::class],
             ['add_stylesheet', 'stylesheets', stylesheet::class],
         ];
     }
@@ -89,8 +92,8 @@ class HtmlViewTest extends TestCase {
         $view = $this->getHtmlView();
 
         $page_title = 'such page';
-        $header_script = new script('header_script.js');
-        $footer_script = new script('footer_script.js');
+        $header_script = new linked_script('header_script.js');
+        $footer_script = new linked_script('footer_script.js');
         $stylesheet = new stylesheet('stylesheet.css', 'screen');
 
         $view->set_page_title($page_title);

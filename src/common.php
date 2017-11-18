@@ -15,6 +15,7 @@ $error_handler->set_report_url(
 );
 
 $error_handler->set_environment(config::ENVIRONMENT);
+$error_handler->set_redirect_url('/');
 
 if (config::ENVIRONMENT !== 'development') {
     $error_handler->register_redirect_handler();

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 use \PHPUnit\Framework\TestCase;
 use \betterphp\utils\reflection;
-use \betterphp\jacek_codes_website\view\component\script;
+use \betterphp\jacek_codes_website\view\component\linked_script;
 
 /**
- * @covers \betterphp\jacek_codes_website\view\component\script
+ * @covers \betterphp\jacek_codes_website\view\component\linked_script
  */
-class ScriptTest extends TestCase {
+class LinkedScriptTest extends TestCase {
 
     public function testSetProperties(): void {
         $expected_src = 'such_script.js';
         $expected_defer = true;
         $expected_async = false;
 
-        $script = new script($expected_src, $expected_defer, $expected_async);
+        $script = new linked_script($expected_src, $expected_defer, $expected_async);
 
         $actual_src = reflection::get_property($script, 'src');
         $actual_defer = reflection::get_property($script, 'defer');
@@ -30,7 +30,7 @@ class ScriptTest extends TestCase {
     public function testRender(): void {
         $expected_src = 'such_script.js';
 
-        $script = new script($expected_src, true, true);
+        $script = new linked_script($expected_src, true, true);
 
         ob_start();
         $script->render();
