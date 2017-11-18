@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
+namespace betterphp\jacek_codes_website;
+
 class config {
 
     const ENVIRONMENT = 'development';
 
     const GITHUB_API_NAME = '';
     const GITHUB_API_TOKEN = '';
+
+    const DATABASE_DSN = '';
+    const DATABASE_USERNAME = '';
+    const DATABASE_PASSWORD = '';
 
 }
