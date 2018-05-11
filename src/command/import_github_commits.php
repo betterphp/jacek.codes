@@ -17,10 +17,14 @@ class import_github_commits extends command {
      * @return \DateTime The time
      */
     private function get_commit_datetime(array $commit): \DateTime {
-        return \DateTime::createFromFormat(
+        $time = \DateTime::createFromFormat(
             \DateTime::ATOM,
             $commit['commit']['author']['date']
         );
+
+        $time->setTimezone(new \DateTimeZone('Europe/London'));
+
+        return $time;
     }
 
     /**
@@ -44,13 +48,23 @@ class import_github_commits extends command {
 
             $latest_repo_update = ($last_updates[$repo['name']] ?? null);
 
+            $page = 0;
+
             do {
                 try {
-                    $commits = $pager->fetch(
-                        $client->api('repos')->commits()->setPerPage(100),
-                        'all',
-                        [ config::GITHUB_API_NAME, $repo['name'], [] ]
-                    );
+                    if ($page === 0) {
+                        $commits = $pager->fetch(
+                            $client->api('repos')->commits()->setPerPage(100),
+                            'all',
+                            [ config::GITHUB_API_NAME, $repo['name'], [] ]
+                        );
+                    } else {
+                        $commits = $pager->fetchNext();
+                    }
+
+                    echo "Fetched ", count($commits), " commits from page {$page}\n";
+
+                    ++$page;
                 } catch (\Github\Exception\RuntimeException $exception) {
                     if ($exception->getMessage() === 'Repository access blocked') {
                         // Skip over repos that have been made private
@@ -71,10 +85,10 @@ class import_github_commits extends command {
                 });
 
                 // Find the most recent one to compare with the current database
-                $latest_commit_date = array_reduce($commits, function (?\DateTime $previous, array $commit) {
+                $earliest_commit_date = array_reduce($commits, function (?\DateTime $previous, array $commit) {
                     $commit_date = $this->get_commit_datetime($commit);
 
-                    return ($previous === null || $commit_date > $previous)
+                    return ($previous === null || $commit_date < $previous)
                         ? $commit_date
                         : $previous;
                 });
@@ -105,9 +119,16 @@ class import_github_commits extends command {
                     }
                 }
 
-                // Carry on while there are more commits and we're
-                // not at the most recent one from the database yet
-            } while ($pager->hasNext() && $latest_repo_update !== null && $latest_commit_date > $latest_repo_update);
+                // Carry on while:
+                //     + There are more commits in the API
+                //     + We're just importing everything or haven't covered the most recent one from the database yet
+            } while (
+                $pager->hasNext() &&
+                (
+                    $latest_repo_update === null ||
+                    $earliest_commit_date > $latest_repo_update
+                )
+            );
         }
     }
 
